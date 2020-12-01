@@ -108,5 +108,4 @@ class Player:
                 elif score == best_score:
                     best_move.append(mov)
             return choice(best_move)
-
         return move
