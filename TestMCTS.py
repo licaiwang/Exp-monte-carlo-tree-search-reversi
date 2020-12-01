@@ -34,15 +34,15 @@ def test(board):
         montecarlo.simulate(3)
     elif total_step <= 24 and total_step > 12:
         # 8 , 5
-        montecarlo.simulate(8)
+        montecarlo.simulate(5)
     elif total_step <= 48 and total_step > 24:
         # 16 , 10, 8
-        montecarlo.simulate(16)
+        montecarlo.simulate(10)
     else:
         # 25 , 15 , 10
-        montecarlo.simulate(25)
+        montecarlo.simulate(15)
 
-    best_move = montecarlo.make_choice(base_player)
+    best_move = montecarlo.make_choice()
 
     return best_move
 

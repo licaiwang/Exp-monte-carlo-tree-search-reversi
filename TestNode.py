@@ -36,9 +36,9 @@ class Node:
         for child in children:
             self.add_child(child)
 
-    def get_preferred_child(self, root_node):
+    def get_preferred_child(self):
         """
-        挑最高分
+        挑最高分的子樹
         """
         best_score = float("-inf")
         for child in self.children:
@@ -54,8 +54,11 @@ class Node:
     def is_scorable(self):
         return self.visits != None
 
+    # TODO: 改成繼承的方式去寫
+
     def get_valid_state(self, chose_player, valid_moves):
-        """取得玩家可以下棋位置的 list
+        """
+        取得玩家可以下棋位置的 list
         
         Args:
             chose_player: An integer to stand for player.
@@ -68,7 +71,8 @@ class Node:
             return []
 
     def compute_available_move(self, chose_player):
-        """計算玩家能夠下棋的位置
+        """
+        計算玩家能夠下棋的位置
         
         Args:
             chose_player: An integer to stand for player.
@@ -101,7 +105,8 @@ class Node:
         return valid_moves
 
     def print_state(self):
-        """輸出局面 O:第一位玩家, X:第二位玩家, #:未下棋位置
+        """
+        輸出局面 O:第一位玩家, X:第二位玩家, #:未下棋位置
         
         e.g.
             ['X' 'X' 'O' 'X' 'X' 'X' 'O' 'O']
@@ -118,7 +123,8 @@ class Node:
         print("\n")
 
     def action(self, action):
-        """決定下棋的位置
+        """
+        決定下棋的位置
         
         Args:
             action: A tuple of location on board (row, col)

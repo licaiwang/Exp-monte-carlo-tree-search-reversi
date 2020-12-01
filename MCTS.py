@@ -26,31 +26,19 @@ class MonteCarlo:
             ]
         )
 
-    def make_choice(self, current_player):
+    def make_choice(self):
+        """
+        挑最高分的樹移動，這裡樹的分數完全 depend on leaf_node
+
+        
         """
         best_children = []
-        most_visits = float("-inf")
-        for child in self.root_node.children:
-            if child.visits > most_visits:
-                most_visits = child.visits
-                best_children = [child]
-            elif child.visits == most_visits:
-                best_children.append(child)
-        """
-        """
-        挑 最高分
-        """
-        root_key = 100
-        best_children = []
-        best_score = -1000
         score = []
         tmp_parent = []
         tmp_child = []
-        root_node = []
         step_id = []
         candidate = []
         best_leaf = None
-        base_score = []
 
         for i, child in enumerate(self.root_node.children):
             self.traversal(child, i)
@@ -66,7 +54,7 @@ class MonteCarlo:
 
             idx = [i for i, j in enumerate(step_id) if j == max(step_id)]
 
-            best_score = -10000
+            best_score = float("-inf")
             #  找最深而且分數最好的
             for id_ in idx:
                 if score[id_] > best_score:
@@ -103,7 +91,7 @@ class MonteCarlo:
                 move = v[5]
                 candidate.append([value, move])
 
-            b_score = -10000
+            b_score = float("-inf")
             b_m = []
 
             for candi in candidate:
@@ -113,7 +101,7 @@ class MonteCarlo:
                     b_m = candi[1]
         else:
             # 即將結束
-            b_score = -1000
+            b_score = float("-inf")
             b_m = []
             for i, child in enumerate(self.root_node.children):
                 score = child.win_value
@@ -208,8 +196,7 @@ class MonteCarlo:
         for i in range(expansion_count):
             current_node = self.root_node
             while current_node.expanded:
-                current_node = current_node.get_preferred_child(self.root_node)
-            self.width = 12
+                current_node = current_node.get_preferred_child()
             self.expand(current_node)
 
     def expand(self, node):
