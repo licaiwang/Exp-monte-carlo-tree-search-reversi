@@ -23,17 +23,17 @@ def profile(func):
 
 
 class Player:
+    # TODO: 把第一步隨機改掉
     def __init__(self):
         self.name = "Player"
         pass
 
     def first_move(self, valid_moves, state):
-        # 棋盤上的狀況 0 1 -1
-
+        # 第一步隨機
         return choice(valid_moves)
 
     @profile
-    def move(self, board, player, opponent, _):
+    def move(self, board, _):
         """
 
         策略 1: 無論如何，有角點就下，然後更新旁邊邊的權重，方便爬邊
@@ -88,7 +88,7 @@ class Player:
 
         """
 
-        move = test(board, board.total)
+        move = test(board)
 
         """
         策略 3:  

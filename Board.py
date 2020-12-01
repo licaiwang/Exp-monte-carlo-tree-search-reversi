@@ -6,14 +6,16 @@ class Board:
         """
         
         player representation: (first_player: O, second_player: X)
+
         Args:
             player: an Object which has required functions
             opponent: an Object which has required functions
+
         """
         self.n_side = 8  # (rows,cols)
         self.player = player
         self.opponent = opponent
-        self.total = 0
+        self.total_step = 0
         self.weight = np.array(
             [
                 [90, -80, 50, 15, 15, 50, -80, 90],
@@ -71,7 +73,8 @@ class Board:
         self.state[self.n_side // 2, self.n_side // 2 - 1] = 1
 
     def reset(self):
-        """重製局面
+        """
+        重製局面
         
         """
         self.__set_state()
@@ -105,6 +108,7 @@ class Board:
                 [90, -80, 50, 15, 15, 50, -80, 90],
             ]
         )
+        self.total_step = 0
         for row, col in np.argwhere(self.state != 0):
             for d in self.directions:
                 this_row = row + d[0]
@@ -126,7 +130,7 @@ class Board:
         Args:
             action: A tuple of location on board (row, col)
         """
-        self.total += 1
+        self.total_step += 1
         row, col = action
         assert self.state[row, col] == 0, "There has been already set"
         assert action in self.valid_moves[self.current_player][:, :2], "wrong choose"
@@ -165,7 +169,8 @@ class Board:
         self.valid_moves[-1] = self.compute_available_move(-1)
 
     def compute_available_move(self, chose_player):
-        """計算玩家能夠下棋的位置
+        """
+        計算玩家能夠下棋的位置
         
         Args:
             chose_player: An integer to stand for player.
@@ -198,7 +203,8 @@ class Board:
         return valid_moves
 
     def is_game_finished(self, chose_player):
-        """確認該局是否結束以及若結束確認該位是否獲勝。
+        """
+        確認該局是否結束以及若結束確認該位是否獲勝。
         
         Args:
             chose_player: An integer to stand for player.
@@ -226,7 +232,8 @@ class Board:
             return (False, 0, [999, 999])
 
     def play(self, player_first=False):
-        """一局遊戲的執行函式
+        """
+        一局遊戲的執行函式
         
         Args:
             player_first: Boolean
@@ -257,17 +264,13 @@ class Board:
         while isFinished[0] == False:
 
             offset = (offset + 1) % 2
-            # XXX - 若要手寫測試下棋 請注意這行 他會決定 board 現在是黑棋或是白棋
-            # 第一手已經在上面先走了
+            # 第一手已經在上面先走了，所以這邊先換人下
             self.current_player = -self.current_player
             current_player_ = players[offset]
             vaild = self.get_valid_state(self.current_player)
             if vaild != []:
                 idx = current_player_.move(
-                    self,
-                    self.player,
-                    self.opponent,
-                    self.get_valid_state(self.current_player),
+                    self, self.get_valid_state(self.current_player),
                 )
                 self.__action(idx)
                 self.print_state()
@@ -281,7 +284,8 @@ class Board:
             return (False, isFinished[1], isFinished[2])
 
     def print_state(self):
-        """輸出局面 O:第一位玩家, X:第二位玩家, #:未下棋位置
+        """
+        輸出局面 O:第一位玩家, X:第二位玩家, #:未下棋位置
         
         e.g.
             ['X' 'X' 'O' 'X' 'X' 'X' 'O' 'O']
@@ -298,7 +302,8 @@ class Board:
         print("\n")
 
     def get_valid_state(self, chose_player):
-        """取得玩家可以下棋位置的 list
+        """
+        取得玩家可以下棋位置的 list
         
         Args:
             chose_player: An integer to stand for player.

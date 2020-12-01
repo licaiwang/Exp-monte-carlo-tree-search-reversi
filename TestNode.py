@@ -12,38 +12,21 @@ class Node:
         self.directions = board.directions
         self.current_player = board.current_player
         self.baseplayer = baseplayer
+        self.weight = board.weight
         self.win_value = 0
         self.score = 0
-        self.policy_value = None
         self.visits = 0
+        self.mov = 0
+        self.total_step = 0
         self.parent = None
         self.children = []
         self.move = []
-        self.mov = 0
-        self.expanded = False
-        self.test_mov = []
-        self.total_step = 0
-        self.discovery_factor = 0.35
         self.tree = []
-        self.weight = np.array(
-            [
-                [90, -80, 50, 15, 15, 50, -80, 90],
-                [-80, -100, 6, 6, 6, 6, -100, -80],
-                [50, 6, 8, 8, 8, 8, 6, 50],
-                [15, 6, 8, 3, 3, 8, 6, 15],
-                [15, 6, 8, 3, 3, 8, 6, 15],
-                [50, 6, 8, 8, 8, 8, 6, 50],
-                [-80, -100, 6, 6, 6, 6, -100, -80],
-                [90, -80, 50, 15, 15, 50, -80, 90],
-            ]
-        )
+        self.expanded = False
 
     def update_win_value(self, value):
         self.win_value = value
         self.visits += 1
-
-    def update_policy_value(self, value):
-        self.policy_value = value
 
     def add_child(self, child):
         self.children.append(child)
@@ -66,16 +49,6 @@ class Node:
         return best_child
 
     def get_score(self, root_node):
-        """
-        discovery_operand = (
-            self.discovery_factor
-            * (self.policy_value or 1)
-            * sqrt(log(self.parent.visits) / (self.visits or 1))
-        )
-        win_multiplier = 1 if self.current_player == root_node.current_player else -1
-        win_operand = win_multiplier * self.win_value / (self.visits or 1)
-        self.score = win_operand + discovery_operand
-        """
         return self.win_value
 
     def is_scorable(self):

@@ -12,7 +12,7 @@ class Opponent:
     def first_move(self, valid_moves, state):
         return choice(valid_moves)
 
-    def move(self, _, _0, _1, valid_moves):
+    def move(self, _, valid_moves):
         return choice(valid_moves)
 
 
